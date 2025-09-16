@@ -20,7 +20,7 @@ export function DeviceCard({
     "flex flex-col items-center justify-center gap-2 rounded-2xl p-4 transition-all";
   const variantClasses = isAdd
     ? "border-2 border-dashed border-gray-300 bg-transparent hover:bg-gray-50"
-    : "bg-[var(--card-background)] soft-shadow hover:soft-shadow-lg";
+    : "bg-card soft-shadow hover:soft-shadow-lg";
 
   return (
     <div className={`${baseClasses} ${variantClasses} ${className}`}>

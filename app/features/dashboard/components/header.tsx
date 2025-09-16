@@ -18,7 +18,7 @@ export function Header({ userName, userImage }: HeaderProps) {
         </h1>
       </div>
       <div className="flex items-center gap-4">
-        <button className="flex h-10 w-10 items-center justify-center rounded-full bg-[var(--card-background)] soft-shadow">
+        <button className="flex h-10 w-10 items-center justify-center rounded-full bg-card soft-shadow">
           <svg
             className="h-6 w-6 text-gray-500"
             fill="none"

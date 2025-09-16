@@ -15,7 +15,7 @@ export function SceneCard({
   alt,
 }: SceneCardProps) {
   return (
-    <div className="relative overflow-hidden rounded-2xl bg-[var(--card-background)] soft-shadow transition-all hover:soft-shadow-lg">
+    <div className="relative overflow-hidden rounded-2xl bg-card soft-shadow transition-all hover:soft-shadow-lg">
       <Image
         alt={alt}
         className="h-40 w-full object-cover"

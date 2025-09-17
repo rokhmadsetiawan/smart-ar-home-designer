@@ -1,0 +1,49 @@
+name: Auto PR Template & Labels
+
+on:
+  pull_request:
+    types: [opened, edited]
+
+jobs:
+  pr-template:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Determine template
+        id: template
+        run: |
+          branch="${{ github.head_ref }}"
+          if [[ "$branch" == feature/* ]]; then
+            echo "label=feature" >> $GITHUB_OUTPUT
+            echo "body<<EOF" >> $GITHUB_OUTPUT
+            cat .github/PULL_REQUEST_TEMPLATE/feature.md >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          elif [[ "$branch" == bugfix/* ]]; then
+            echo "label=bug" >> $GITHUB_OUTPUT
+            echo "body<<EOF" >> $GITHUB_OUTPUT
+            cat .github/PULL_REQUEST_TEMPLATE/bugfix.md >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          elif [[ "$branch" == docs/* ]]; then
+            echo "label=docs" >> $GITHUB_OUTPUT
+            echo "body<<EOF" >> $GITHUB_OUTPUT
+            cat .github/PULL_REQUEST_TEMPLATE/docs.md >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          else
+            echo "label=chore" >> $GITHUB_OUTPUT
+            echo "body<<EOF" >> $GITHUB_OUTPUT
+            cat .github/PULL_REQUEST_TEMPLATE.md >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Update PR body
+        uses: peter-evans/pull-request-body@v2
+        with:
+          body: ${{ steps.template.outputs.body }}
+
+      - name: Add PR label
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          labels: ${{ steps.template.outputs.label }}

@@ -11,36 +11,43 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Determine template
+      - name: Determine template & label
         id: template
         run: |
           branch="${{ github.head_ref }}"
           if [[ "$branch" == feature/* ]]; then
             echo "label=feature" >> $GITHUB_OUTPUT
-            echo "body<<EOF" >> $GITHUB_OUTPUT
-            cat .github/PULL_REQUEST_TEMPLATE/feature.md >> $GITHUB_OUTPUT
-            echo "EOF" >> $GITHUB_OUTPUT
+            template=".github/PULL_REQUEST_TEMPLATE/feature.md"
           elif [[ "$branch" == bugfix/* ]]; then
             echo "label=bug" >> $GITHUB_OUTPUT
-            echo "body<<EOF" >> $GITHUB_OUTPUT
-            cat .github/PULL_REQUEST_TEMPLATE/bugfix.md >> $GITHUB_OUTPUT
-            echo "EOF" >> $GITHUB_OUTPUT
+            template=".github/PULL_REQUEST_TEMPLATE/bugfix.md"
           elif [[ "$branch" == docs/* ]]; then
             echo "label=docs" >> $GITHUB_OUTPUT
-            echo "body<<EOF" >> $GITHUB_OUTPUT
-            cat .github/PULL_REQUEST_TEMPLATE/docs.md >> $GITHUB_OUTPUT
-            echo "EOF" >> $GITHUB_OUTPUT
+            template=".github/PULL_REQUEST_TEMPLATE/docs.md"
           else
             echo "label=chore" >> $GITHUB_OUTPUT
-            echo "body<<EOF" >> $GITHUB_OUTPUT
-            cat .github/PULL_REQUEST_TEMPLATE.md >> $GITHUB_OUTPUT
-            echo "EOF" >> $GITHUB_OUTPUT
+            template=".github/PULL_REQUEST_TEMPLATE.md"
           fi
+          echo "template=$template" >> $GITHUB_OUTPUT
 
-      - name: Update PR body
-        uses: peter-evans/pull-request-body@v2
-        with:
-          body: ${{ steps.template.outputs.body }}
+      - name: Load template content
+        id: body
+        run: |
+          body=$(cat "${{ steps.template.outputs.template }}")
+          # Escape newlines for GitHub API
+          body="${body//'%'/'%25'}"
+          body="${body//$'\n'/'%0A'}"
+          body="${body//$'\r'/'%0D'}"
+          echo "body=$body" >> $GITHUB_OUTPUT
+
+      - name: Update PR body via GitHub API
+        run: |
+          gh api \
+            repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }} \
+            -X PATCH \
+            -f body="${{ steps.body.outputs.body }}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Add PR label
         uses: actions-ecosystem/action-add-labels@v1

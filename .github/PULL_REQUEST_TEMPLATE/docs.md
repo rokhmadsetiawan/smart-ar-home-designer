@@ -1,17 +1,21 @@
-## 📝 Documentation Pull Request
+# 📝 Documentation Pull Request
 
-### 📖 Description
-Describe the documentation updates.
+## 📖 Description
+Explain the documentation updates.  
 
-### 📚 Changes
-- Updated README
-- Added usage examples
-- Improved inline comments
+## 🔄 Changes
+- Added ...
+- Updated ...
+- Clarified ...
 
-### ✅ Checklist
-- [ ] Documentation is clear and accurate
-- [ ] Screenshots or diagrams updated (if applicable)
-- [ ] Linked to related features/changes
+## 🖼️ Screenshots / Previews (if applicable)
+_Add screenshots, markdown previews, or links._
 
-### 🔗 Related Issues
+## ✅ Checklist
+- [ ] No breaking changes
+- [ ] Documentation builds without errors
+- [ ] Code examples (if any) are correct
+- [ ] Linked references are valid
+
+## 🔗 Related Issues
 Refs #ISSUE_ID

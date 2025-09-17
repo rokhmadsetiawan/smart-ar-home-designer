@@ -4,6 +4,10 @@ on:
   pull_request:
     types: [opened, edited]
 
+permissions:
+  pull-requests: write
+  contents: read
+
 jobs:
   pr-template:
     runs-on: ubuntu-latest
@@ -40,7 +44,8 @@ jobs:
           body="${body//$'\r'/'%0D'}"
           echo "body=$body" >> $GITHUB_OUTPUT
 
-      - name: Update PR body via GitHub API
+      - name: Update PR body (only if not fork)
+        if: github.event.pull_request.head.repo.full_name == github.repository
         run: |
           gh api \
             repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }} \

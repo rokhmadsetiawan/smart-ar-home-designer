@@ -1,18 +1,21 @@
-## ♻️ Refactor Pull Request
+# ♻️ Refactor Pull Request
 
-### 📖 Description
-Explain the refactoring. What’s improved or simplified?
+## 📖 Description
+Explain the refactoring. What’s improved or simplified?  
 
-### 🔄 Changes
+## 🔄 Changes
 - Cleaned up ...
 - Optimized ...
 - Improved readability or maintainability
 
-### ✅ Checklist
-- [ ] Code follows conventions
+## 🖼️ Notes
+_Add reasoning, benchmarks, or examples if applicable._
+
+## ✅ Checklist
 - [ ] No functional changes introduced
+- [ ] Code follows conventions
 - [ ] Unit/Integration tests still pass
 - [ ] Documentation updated if necessary
 
-### 🔗 Related Issues
+## 🔗 Related Issues
 Refs #ISSUE_ID

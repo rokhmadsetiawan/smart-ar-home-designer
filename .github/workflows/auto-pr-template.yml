@@ -21,19 +21,19 @@ jobs:
           branch="${{ github.head_ref }}"
           if [[ "$branch" == feat/* ]]; then
             echo "label=feature" >> $GITHUB_OUTPUT
-            template=".github/PULL_REQUEST_TEMPLATE/feature.md"
+            template=".github/pull_request_template/feature.md"
           elif [[ "$branch" == fix/* ]]; then
             echo "label=bug" >> $GITHUB_OUTPUT
-            template=".github/PULL_REQUEST_TEMPLATE/bugfix.md"
+            template=".github/pull_request_template/bugfix.md"
           elif [[ "$branch" == refactor/* ]]; then
             echo "label=refactor" >> $GITHUB_OUTPUT
-            template=".github/PULL_REQUEST_TEMPLATE/refactor.md"
+            template=".github/pull_request_template/refactor.md"
           elif [[ "$branch" == docs/* ]]; then
             echo "label=docs" >> $GITHUB_OUTPUT
-            template=".github/PULL_REQUEST_TEMPLATE/docs.md"
+            template=".github/pull_request_template/docs.md"
           else
             echo "label=chore" >> $GITHUB_OUTPUT
-            template=".github/PULL_REQUEST_TEMPLATE.md"
+            template=".github/pull_request_template.md"
           fi
           echo "template=$template" >> $GITHUB_OUTPUT
 

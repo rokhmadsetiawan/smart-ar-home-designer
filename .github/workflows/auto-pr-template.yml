@@ -19,12 +19,15 @@ jobs:
         id: template
         run: |
           branch="${{ github.head_ref }}"
-          if [[ "$branch" == feature/* ]]; then
+          if [[ "$branch" == feat/* ]]; then
             echo "label=feature" >> $GITHUB_OUTPUT
             template=".github/PULL_REQUEST_TEMPLATE/feature.md"
-          elif [[ "$branch" == bugfix/* ]]; then
+          elif [[ "$branch" == fix/* ]]; then
             echo "label=bug" >> $GITHUB_OUTPUT
             template=".github/PULL_REQUEST_TEMPLATE/bugfix.md"
+          elif [[ "$branch" == refactor/* ]]; then
+            echo "label=refactor" >> $GITHUB_OUTPUT
+            template=".github/PULL_REQUEST_TEMPLATE/refactor.md"
           elif [[ "$branch" == docs/* ]]; then
             echo "label=docs" >> $GITHUB_OUTPUT
             template=".github/PULL_REQUEST_TEMPLATE/docs.md"
@@ -34,14 +37,10 @@ jobs:
           fi
           echo "template=$template" >> $GITHUB_OUTPUT
 
-      - name: Load template content
+      - name: Load template content (JSON safe)
         id: body
         run: |
-          body=$(cat "${{ steps.template.outputs.template }}")
-          # Escape newlines for GitHub API
-          body="${body//'%'/'%25'}"
-          body="${body//$'\n'/'%0A'}"
-          body="${body//$'\r'/'%0D'}"
+          body=$(jq -Rs . < "${{ steps.template.outputs.template }}")
           echo "body=$body" >> $GITHUB_OUTPUT
 
       - name: Update PR body (only if not fork)
@@ -50,7 +49,7 @@ jobs:
           gh api \
             repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }} \
             -X PATCH \
-            -f body="${{ steps.body.outputs.body }}"
+            -f body=${{ steps.body.outputs.body }}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

@@ -1,30 +1,19 @@
-## 📌 Description
-Provide a short summary of what this PR does.
+## 🔧 General Pull Request
 
-## 🔄 Changes
-- **Config**
-  - ...
-- **Theming**
-  - ...
-- **Dashboard**
-  - ...
-- **Docs**
-  - ...
+### 📖 Description
+Provide a clear and concise description of the changes.  
+Explain the purpose (chore, CI/CD, style, dependency update, etc.).
 
-## ✅ Checklist
-- [x] Code follows conventions
-- [ ] Refactored components into modules (if applicable)
-- [ ] Docs added/updated
-- [ ] Tests added/updated or not applicable
+### 📦 Changes
+- Updated ...
+- Configured ...
+- Minor adjustments ...
 
-## 🔗 Related Issues
-Closes #ISSUE_ID
+### ✅ Checklist
+- [ ] Code follows conventions
+- [ ] Unit/Integration tests updated (if applicable)
+- [ ] Documentation updated (if applicable)
+- [ ] No breaking changes
 
----
-
-# 📌 Other PR Templates
-If this PR is more specific, consider using one of the dedicated templates instead:
-
-- ✨ [Feature](?template=feature.md)
-- 🐛 [Bug Fix](?template=bugfix.md)
-- 📖 [Documentation](?template=docs.md)
+### 🔗 Related Issues
+Refs #ISSUE_ID
